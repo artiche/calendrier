@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Évite une boucle de réécriture
+RewriteRule ^calendar\.php$ - [L]
+
+# Redirige tout vers calendar.php
+RewriteRule ^.*$ /calendar.php [L,QSA]

@@ -1,0 +1,26 @@
+{
+  "name": "Calendrier PHP Apache",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "overrideCommand": false,
+  "workspaceFolder": "/var/www/html",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/var/www/html,type=bind",
+  "forwardPorts": [80],
+  "portsAttributes": {
+    "80": {
+      "label": "Apache",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "xdebug.php-debug",
+        "bmewburn.vscode-intelephense-client"
+      ]
+    }
+  },
+  "postCreateCommand": "apache2ctl -M > /tmp/apache-modules.txt"
+}
