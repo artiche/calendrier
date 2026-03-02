@@ -1,10 +1,10 @@
 const CACHE_NAME = 'calendrier-v1';
 const APP_SHELL = [
-  '/calendar.php',
-  '/manifest.webmanifest',
-  '/offline.html',
-  '/icons/icon-192.svg',
-  '/icons/icon-512.svg'
+  './calendar.php',
+  './manifest.webmanifest',
+  './offline.html',
+  './icons/icon-192.svg',
+  './icons/icon-512.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -29,21 +29,22 @@ self.addEventListener('fetch', (event) => {
   }
 
   const requestUrl = new URL(event.request.url);
+  const scopePath = new URL(self.registration.scope).pathname;
 
   if (requestUrl.origin !== self.location.origin) {
     return;
   }
 
-  if (requestUrl.pathname === '/' || requestUrl.pathname.endsWith('/calendar.php')) {
+  if (requestUrl.pathname === scopePath || requestUrl.pathname === `${scopePath}calendar.php`) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
           const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put('/calendar.php', responseClone));
+          caches.open(CACHE_NAME).then((cache) => cache.put('./calendar.php', responseClone));
           return response;
         })
-        .catch(() => caches.match('/calendar.php'))
-        .catch(() => caches.match('/offline.html'))
+        .catch(() => caches.match('./calendar.php'))
+        .catch(() => caches.match('./offline.html'))
     );
     return;
   }
@@ -60,7 +61,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
           return response;
         })
-        .catch(() => caches.match('/offline.html'));
+        .catch(() => caches.match('./offline.html'));
     })
   );
 });

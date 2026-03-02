@@ -1,11 +1,15 @@
 RewriteEngine On
+Options -Indexes
+Options -MultiViews
+DirectoryIndex calendar.php
 
-# Ne pas réécrire les fichiers existants
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^ - [L]
-
-# Évite une boucle de réécriture
+# Ne pas réécrire calendar.php lui-même
 RewriteRule ^calendar\.php$ - [L]
 
-# Redirige tout le reste vers calendar.php
-RewriteRule ^ /calendar.php [L,QSA]
+# Ne pas réécrire les fichiers/dossiers existants
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Front controller (reste dans le dossier courant, pas à la racine du domaine)
+RewriteRule . calendar.php [L,QSA]

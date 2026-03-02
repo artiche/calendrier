@@ -253,9 +253,9 @@ class CalendarGenerator
         $html .= '  <meta name="apple-mobile-web-app-capable" content="yes">' . "\n";
         $html .= '  <meta name="apple-mobile-web-app-status-bar-style" content="default">' . "\n";
         $html .= '  <meta name="apple-mobile-web-app-title" content="Calendrier">' . "\n";
-        $html .= '  <link rel="manifest" href="/manifest.webmanifest">' . "\n";
-        $html .= '  <link rel="icon" href="/favicon.svg" type="image/svg+xml">' . "\n";
-        $html .= '  <link rel="apple-touch-icon" href="/icons/icon-192.svg">' . "\n";
+        $html .= '  <link rel="manifest" href="./manifest.webmanifest">' . "\n";
+        $html .= '  <link rel="icon" href="./favicon.svg" type="image/svg+xml">' . "\n";
+        $html .= '  <link rel="apple-touch-icon" href="./icons/icon-192.svg">' . "\n";
         $html .= '  <title>Calendrier Perpétuel ' . $this->year . '</title>' . "\n";
         $html .= '  <style>' . "\n";
         $html .= $this->generateCSS();
@@ -351,7 +351,7 @@ class CalendarGenerator
         $html .= '});' . "\n";
         $html .= 'if ("serviceWorker" in navigator) {' . "\n";
         $html .= '  window.addEventListener("load", function() {' . "\n";
-        $html .= '    navigator.serviceWorker.register("/service-worker.js").catch(function(error) {' . "\n";
+        $html .= '    navigator.serviceWorker.register("./service-worker.js").catch(function(error) {' . "\n";
         $html .= '      console.warn("Service worker registration failed:", error);' . "\n";
         $html .= '    });' . "\n";
         $html .= '  });' . "\n";
