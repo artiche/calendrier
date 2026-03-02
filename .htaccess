@@ -1,7 +1,11 @@
 RewriteEngine On
 
+# Ne pas réécrire les fichiers existants
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
 # Évite une boucle de réécriture
 RewriteRule ^calendar\.php$ - [L]
 
-# Redirige tout vers calendar.php
-RewriteRule ^.*$ /calendar.php [L,QSA]
+# Redirige tout le reste vers calendar.php
+RewriteRule ^ /calendar.php [L,QSA]

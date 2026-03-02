@@ -7,7 +7,7 @@
 class SchoolHolidayService
 {
     private const API_BASE_URL = 'https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-calendrier-scolaire/records';
-    private const CACHE_DIR = __DIR__ . '/cache';
+    private const CACHE_DIR = __DIR__ . '/../cache';
     private const CACHE_DURATION = 86400; // 24 heures
 
     /**

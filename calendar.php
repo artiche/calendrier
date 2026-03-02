@@ -1,8 +1,8 @@
 <?php
 
-require_once 'EasterCalculator.php';
-require_once 'FlowerCalendar.php';
-require_once 'SchoolHolidayService.php';
+require_once __DIR__ . '/services/EasterCalculator.php';
+require_once __DIR__ . '/services/FlowerCalendar.php';
+require_once __DIR__ . '/services/SchoolHolidayService.php';
 
 /**
  * Classe pour générer un calendrier HTML annuel
@@ -248,6 +248,14 @@ class CalendarGenerator
         $html .= '<head>' . "\n";
         $html .= '  <meta charset="UTF-8">' . "\n";
         $html .= '  <meta name="viewport" content="width=device-width, initial-scale=1.0">' . "\n";
+        $html .= '  <meta name="theme-color" content="#667eea">' . "\n";
+        $html .= '  <meta name="mobile-web-app-capable" content="yes">' . "\n";
+        $html .= '  <meta name="apple-mobile-web-app-capable" content="yes">' . "\n";
+        $html .= '  <meta name="apple-mobile-web-app-status-bar-style" content="default">' . "\n";
+        $html .= '  <meta name="apple-mobile-web-app-title" content="Calendrier">' . "\n";
+        $html .= '  <link rel="manifest" href="/manifest.webmanifest">' . "\n";
+        $html .= '  <link rel="icon" href="/favicon.svg" type="image/svg+xml">' . "\n";
+        $html .= '  <link rel="apple-touch-icon" href="/icons/icon-192.svg">' . "\n";
         $html .= '  <title>Calendrier Perpétuel ' . $this->year . '</title>' . "\n";
         $html .= '  <style>' . "\n";
         $html .= $this->generateCSS();
@@ -259,6 +267,7 @@ class CalendarGenerator
         $html .= '<a href="?year=' . ($this->year - 1) . '" class="year-nav">&laquo;</a>';
         $html .= ' Calendrier ' . $this->year . ' ';
         $html .= '<a href="?year=' . ($this->year + 1) . '" class="year-nav">&raquo;</a>';
+        $html .= '<button id="install-app" class="install-btn" type="button" aria-label="Installer l\'application">Installer</button>';
         $html .= '</h1>' . "\n";
         $html .= '<div class="calendar-container">' . "\n";
 
@@ -318,6 +327,35 @@ class CalendarGenerator
         $html .= '  const rtt = Math.max(0, workdays - congesPayes - forfait);' . "\n";
         $html .= '  document.getElementById("rtt-value").textContent = rtt + " jours";' . "\n";
         $html .= '});' . "\n";
+        $html .= 'const installButton = document.getElementById("install-app");' . "\n";
+        $html .= 'let deferredInstallPrompt = null;' . "\n";
+        $html .= 'const isMobile = window.matchMedia("(max-width: 768px)").matches;' . "\n";
+        $html .= 'window.addEventListener("beforeinstallprompt", function(event) {' . "\n";
+        $html .= '  event.preventDefault();' . "\n";
+        $html .= '  deferredInstallPrompt = event;' . "\n";
+        $html .= '  if (isMobile) {' . "\n";
+        $html .= '    installButton.style.display = "inline-flex";' . "\n";
+        $html .= '  }' . "\n";
+        $html .= '});' . "\n";
+        $html .= 'installButton.addEventListener("click", async function() {' . "\n";
+        $html .= '  if (!deferredInstallPrompt) {' . "\n";
+        $html .= '    return;' . "\n";
+        $html .= '  }' . "\n";
+        $html .= '  deferredInstallPrompt.prompt();' . "\n";
+        $html .= '  await deferredInstallPrompt.userChoice;' . "\n";
+        $html .= '  deferredInstallPrompt = null;' . "\n";
+        $html .= '  installButton.style.display = "none";' . "\n";
+        $html .= '});' . "\n";
+        $html .= 'window.addEventListener("appinstalled", function() {' . "\n";
+        $html .= '  installButton.style.display = "none";' . "\n";
+        $html .= '});' . "\n";
+        $html .= 'if ("serviceWorker" in navigator) {' . "\n";
+        $html .= '  window.addEventListener("load", function() {' . "\n";
+        $html .= '    navigator.serviceWorker.register("/service-worker.js").catch(function(error) {' . "\n";
+        $html .= '      console.warn("Service worker registration failed:", error);' . "\n";
+        $html .= '    });' . "\n";
+        $html .= '  });' . "\n";
+        $html .= '}' . "\n";
         $html .= '</script>' . "\n";
 
         $html .= '</body>' . "\n";
@@ -369,6 +407,23 @@ class CalendarGenerator
 
     .year-nav:hover {
       color: #dc3545;
+    }
+
+    .install-btn {
+      display: none;
+      margin-left: 10px;
+      border: 0;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.6em;
+      font-weight: 700;
+      background: #ffffff;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .install-btn:active {
+      transform: translateY(1px);
     }
 
     .calendar-container {
@@ -707,6 +762,12 @@ class CalendarGenerator
 
       h1 {
         font-size: 1.8em;
+        gap: 10px;
+      }
+
+      .install-btn {
+        font-size: 0.5em;
+        padding: 6px 8px;
       }
 
       .month-calendar table {
@@ -731,6 +792,7 @@ class CalendarGenerator
 
       h1 {
         font-size: 1.4em;
+        gap: 8px;
       }
 
       .month-calendar {
