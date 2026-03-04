@@ -495,6 +495,7 @@ class CalendarGenerator
       text-align: left;
       padding-left: 1px;
       font-size: 1em;
+      max-width:100px;
       position: relative;
     }
 
