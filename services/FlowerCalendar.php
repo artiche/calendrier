@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/EasterCalculator.php';
+require_once 'EasterCalculator.php';
 
 /**
  * Classe pour obtenir le prénom du jour selon le calendrier des fleuristes

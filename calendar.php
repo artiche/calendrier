@@ -381,7 +381,7 @@ class CalendarGenerator
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 10px;
+      padding: 2px;
       min-height: 100vh;
     }
 
@@ -432,7 +432,6 @@ class CalendarGenerator
       gap: 2px;
       max-width: 100%;
       margin: 0 auto 10px;
-      padding: 0 5px;
     }
 
     .month-calendar {
@@ -545,7 +544,7 @@ class CalendarGenerator
     .month-calendar tr.school-holiday-a .holiday-col::before {
       content: '';
       position: absolute;
-      right: 22px;
+      right: 20px;
       top: 0;
       bottom: 0;
       width: 8px;
@@ -557,7 +556,7 @@ class CalendarGenerator
     .month-calendar tr.school-holiday-b .holiday-col::after {
       content: '';
       position: absolute;
-      right: 12px;
+      right: 10px;
       top: 0;
       bottom: 0;
       width: 8px;
@@ -616,7 +615,7 @@ class CalendarGenerator
 
     .flower-name {
       color: #666;
-      font-weight: 500;
+      font-weight: 300;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
